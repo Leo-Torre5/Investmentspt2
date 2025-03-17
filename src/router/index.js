@@ -10,6 +10,7 @@ import InvestmentCreate from '@/components/InvestmentCreate'
 import StockList from '@/components/StockList'
 import StockCreate from '@/components/StockCreate'
 
+
 const routes = [
   {
     path: '/',
@@ -36,6 +37,7 @@ const routes = [
     name: 'MyCustomerUpdatedList',
     component: MyCustomerList
   },
+
   {
     path: '/customer-create',
     name: 'CustomerCreate',
@@ -46,7 +48,7 @@ const routes = [
     name: 'CustomerUpdate',
     component: CustomerCreate
   },
-{
+  {
     path: '/investment-list',
     name: 'InvestmentList',
     component: InvestmentList
@@ -69,17 +71,17 @@ const routes = [
   {
     path: '/stock-list',
     name: 'StockList',
-    component: StockList 
+    component: StockList
   },
   {
     path: '/stock-list/:msg',
     name: 'StockUpdatedList',
-    component: StockList 
+    component: StockList
   },
   {
     path: '/stock-create',
     name: 'StockCreate',
-    component: StockCreate 
+    component: StockCreate
   },
   {
     path: '/stock-create/:pk',
@@ -104,4 +106,3 @@ const router = createRouter({
 })
 
 export default router
-

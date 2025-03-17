@@ -1,8 +1,6 @@
 <template>
   <ul class="nav justify-content-end">
       <div class="FS">Financial Services</div>
-      <li class="nav-item">
-  </li>
       <li class="nav-item active">
           <router-link to="/">Home</router-link> |
       </li>
@@ -10,14 +8,16 @@
           <router-link :to="{name: 'CustomerList'}">Customers</router-link> |
       </li>
       <li class="nav-item">
-            <router-link :to="{name: 'InvestmentList'}">Investments</router-link> | 
+              <router-link :to="{name: 'InvestmentList'}">Investments</router-link> | 
       </li>
       <li class="nav-item">
-            <router-link :to="{name: 'StockList'}">Stocks</router-link> | 
-      </li>
+              <router-link :to="{name: 'StockList'}">Stocks</router-link> | 
+        </li>
+
       <li class="nav-item">
-            <router-link :to="{name: 'MyCustomerList'}">My Customers</router-link> | 
+              <router-link :to="{name: 'MyCustomerList'}">My Customers</router-link> | 
       </li>
+
       <li class="nav-item" v-if="!authenticated" @click="register" >
           <router-link :to="{name: 'Register'}">Register</router-link> |
       </li>
@@ -33,6 +33,7 @@
 <script>
   import router from './router';
   import {APIService} from './http/APIService';
+import { jsx } from 'vue/jsx-runtime';
   const apiService = new APIService();
 
   export default {
@@ -111,4 +112,3 @@
       }
   }
 </style>
-

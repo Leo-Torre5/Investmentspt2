@@ -28,123 +28,110 @@
                     Selected customer has been deleted.
                 </div>
             </div>
-        </div>
+        </div>        
         <!--Mobile device view-->
         <div class="d-md-none" id="collapsable-card" style="width: 80%">
-            <button type="button" class="btn btn-primary" @click="addNewCustomer">
-                <font-awesome-icon icon="plus"/>
-            </button>
-            <div class="card" v-for="customer in customers" v-bind:key="customer">
-                <div class="card-header" :id="'heading' + customer.cust_number">
-                    <button class="btn btn-link collapsed" data-bs-toggle="collapse"
-                            :data-bs-target="'#collapse' + customer.pk" aria-expanded="true"
-                            :aria-controls="'collapse' + customer.pk">
-                        <h6 style="color: #0275d8; float: left">{{ customer.name }}</h6>
-                    </button>
-                </div>
+                <button type="button" class="btn btn-primary" @click="addNewCustomer">
+                    <font-awesome-icon icon="plus"/>
+                </button>
+                <div class="card" v-for="customer in customers" v-bind:key="customer">
+                    <div class="card-header" :id="'heading' + customer.cust_number">
+                        <button class="btn btn-link collapsed" data-bs-toggle="collapse" :data-bs-target="'#collapse' + customer.pk" 
+                        aria-expanded="true" :aria-controls="'collapse' + customer.pk">
+                            <h6 style="color: #0275d8; float: left">{{customer.name}}</h6>
+                        </button>
+                    </div>
 
-                <div :id="'collapse' + customer.pk" class="collapse" :aria-labelledby="'heading' + customer.pk"
-                     data-bs-parent="#collapsable-card">
-                    <div class="card-body">
-                        <p><b>Name:</b> {{ customer.name }}</p>
-                        <p><b>Customer Number:</b>{{ customer.cust_number }}</p>
-                        <p><b>Address:</b> {{ customer.address }},{{ customer.city }},
+                    <div :id="'collapse' + customer.pk" class="collapse" :aria-labelledby="'heading' + customer.pk" data-bs-parent="#collapsable-card">
+                        <div class="card-body">
+                            <p><b>Name:</b> {{customer.name}}</p>
+                            <p><b>Customer Number:</b>{{ customer.cust_number }}</p>
+                            <p><b>Address:</b> {{customer.address}},{{ customer.city }},
                             {{ customer.state }}, {{ customer.zipcode }}</p>
-                        <p><b>Email:</b> {{ customer.email }}</p>
-                        <p><b>Phone:</b> {{ customer.cell_phone }}</p>
-                        <p><b>Agent:</b> {{ customer.agent }}</p>
-                        <div v-if="(this.userID === customer.agent || this.is_superuser === 'true')" class="btn-group">
-                            <button @click="updateCustomer(customer)"
-                                    style="background-color: transparent; padding: 5;">
-                                <font-awesome-icon icon="pencil"/>
-                            </button>
-                            <button @click="deleteCustomer(customer)"
-                                    style="background-color: transparent; padding: 5;">
-                                <font-awesome-icon icon="trash"/>
-                            </button>
-                        </div>
-                        <div v-else class="btn-group">
-                            <button style="background-color: transparent; padding: 0;" disabled>
-                                <font-awesome-icon icon="pencil"/>
-                            </button>
-                            <button style="background-color: transparent; padding: 0;" disabled>
-                                <font-awesome-icon icon="trash"/>
-                            </button>
+                            <p><b>Email:</b> {{customer.email}}</p>
+                            <p><b>Phone:</b> {{customer.cell_phone}}</p>
+                            <p><b>Agent:</b> {{customer.agent}}</p>
+                            <div v-if="(this.userID === customer.agent || this.is_superuser === 'true')" class="btn-group">
+                                <button  @click="updateCustomer(customer)" style="background-color: transparent; padding: 5;">
+                                    <font-awesome-icon icon="pencil"/></button>
+                                <button @click="deleteCustomer(customer)" style="background-color: transparent; padding: 5;">
+                                    <font-awesome-icon icon="trash"/></button>
+                            </div>
+                            <div v-else class="btn-group">
+                                <button style="background-color: transparent; padding: 0;" disabled>
+                                    <font-awesome-icon icon="pencil"/></button>
+                                <button style="background-color: transparent; padding: 0;" disabled>
+                                    <font-awesome-icon icon="trash"/></button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!--non-Mobile device view-->
-        <div class="col col-12 col-md-10 d-none d-xl-block d-lg-block d-md-block">
-            <table class="table table-hover" style="overflow-y: auto"
-                   :headers="headers">
-                <thead>
-                <tr>
-                    <th scope="col">Customer #</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Address</th>
-                    <th scope="col">City</th>
-                    <th scope="col">State</th>
-                    <th scope="col">Zip Code</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Phone</th>
-                    <th scope="col">Agent</th>
-                    <th scope="col">Update</th>
-                    <th scope="col">Delete</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="customer in customers" v-bind:key="customer">
-                    <th scope="row">{{ customer.cust_number }}</th>
-                    <td>{{ customer.name }}</td>
-                    <td>{{ customer.address }}</td>
-                    <td>{{ customer.city }}</td>
-                    <td>{{ customer.state }}</td>
-                    <td>{{ customer.zipcode }}</td>
-                    <td>{{ customer.email }}</td>
-                    <td>{{ customer.cell_phone }}</td>
-                    <td>{{ customer.agent }}</td>
-                    <td v-if="(this.userID === customer.agent || this.is_superuser === 'true')"
-                        @click="updateCustomer(customer)">
-                        <button style="background-color: transparent; padding: 0;">
-                            <font-awesome-icon icon="pencil"/>
-                        </button>
-                    </td>
-                    <td v-else>
-                        <button style="background-color: transparent; padding: 0;" disabled>
-                            <font-awesome-icon icon="pencil"/>
-                        </button>
-                    </td>
-                    <td v-if="(this.userID === customer.agent || this.is_superuser === 'true')"
-                        @click="deleteCustomer(customer)">
-                        <button style="background-color: transparent; padding: 5;">
-                            <font-awesome-icon icon="trash"/>
-                        </button>
-                    </td>
-                    <td v-else>
-                        <button style="background-color: transparent; padding: 5;" disabled>
-                            <font-awesome-icon icon="trash"/>
-                        </button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <!-- Only allow add of customer when authenticated user -->
-            <div v-if="this.authenticated === 'true'">
-                <button type="button" class="btn btn-primary" @click="addNewCustomer">Add New Customer</button>
+            <!--non-Mobile device view-->
+            <div class="col col-12 col-md-10 d-none d-xl-block d-lg-block d-md-block">
+                <table class="table table-hover" style="overflow-y: auto"
+                       :headers="headers">
+                    <thead>
+                    <tr>
+                        <th scope="col">Customer #</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">City</th>
+                        <th scope="col">State</th>
+                        <th scope="col">Zip Code</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Agent</th>
+                        <th scope="col">Update</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for = "customer in customers" v-bind:key="customer">
+                        <th scope="row">{{customer.cust_number}}</th>
+                        <td>{{customer.name}}</td>
+                        <td>{{customer.address}}</td>
+                        <td>{{customer.city}}</td>
+                        <td>{{customer.state}}</td>
+                        <td>{{customer.zipcode}}</td>
+                        <td>{{customer.email}}</td>
+                        <td>{{customer.cell_phone}}</td>
+                        <td>{{customer.agent }}</td>
+                        <td v-if="(this.userID === customer.agent || this.is_superuser === 'true')"
+                         @click="updateCustomer(customer)">
+                            <button style="background-color: transparent; padding: 5;">
+                            <font-awesome-icon icon="pencil"/></button>
+                        </td>
+                        <td v-else>
+                            <button style="background-color: transparent; padding: 5;" disabled>
+                            <font-awesome-icon icon="pencil"/></button>
+                        </td>
+                        <td v-if="(this.userID === customer.agent || this.is_superuser === 'true')"
+                         @click="deleteCustomer(customer)">
+                            <button style="background-color: transparent; padding: 5;">
+                            <font-awesome-icon icon="trash"/></button>
+                        </td>
+                        <td v-else>
+                            <button style="background-color: transparent; padding: 5;" disabled>
+                            <font-awesome-icon icon="trash"/></button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!-- Only allow add of customer when authenticated user -->
+                <div v-if="this.authenticated === 'true'">
+                    <button type="button" class="btn btn-primary" @click="addNewCustomer">Add New Customer</button>
+                </div>
             </div>
         </div>
-    </div>
 </template>
 <script>
     import router from '../router';
     import {APIService} from '../http/APIService';
-
     const apiService = new APIService();
 
     export default {
-        name: "MyCustomerList",
+        name: "CustomerList",
         data: () => ({
             customers: [],
             validUserName: "Guest",
@@ -152,6 +139,7 @@
             showMsg: '',
             isMobile: false,
             authenticated: false,
+            userID: '',
             is_superuser: false,
             headers: [
                 {text: 'Customer Number', sortable: false, align: 'left',},
@@ -168,10 +156,12 @@
             ],
         }),
         mounted() {
-            this.authenticated = localStorage.getItem("isAuthenticated");
+            this.authenticated = localStorage.getItem("isAuthenticated")
             this.is_superuser = localStorage.getItem("is_superuser");
+            this.validUserName = localStorage.getItem("username");
             this.userID = Number(localStorage.getItem("userID"));
-            this.getMyCustomers();
+ 
+            this.getCustomers();
             this.showMessages();
         },
         methods: {
@@ -181,19 +171,15 @@
                 else
                     this.isMobile = true;
             },
-            showMessages() {
+            showMessages(){
                 if (this.$route.params.msg) {
                     this.showMsg = this.$route.params.msg;
                 }
             },
-            getMyCustomers() {
-                apiService.getMyCustomerList().then(response => {
+            getCustomers() {
+                apiService.getCustomerList().then(response => {
                     this.customers = response.data.data;
                     this.customerSize = this.customers.length;
-                    if (localStorage.getItem("isAuthenticated")
-                        && JSON.parse(localStorage.getItem("isAuthenticated")) === true) {
-                        this.validUserName = JSON.parse(localStorage.getItem("log_user"));
-                    }
                 }).catch(error => {
                     if (error.response.status === 401) {
                         localStorage.clear();
@@ -213,11 +199,11 @@
                 router.push('/customer-create/' + customer.pk);
             },
             deleteCustomer(customer) {
-                if (confirm("Do you really want to delete?")) {
+                if(confirm("Do you really want to delete?")) {
                     apiService.deleteCustomer(customer.pk).then(response => {
                         if (response.status === 204) {
-                            router.push('/mycustomer-list/deleted/')
-                            this.getMyCustomers()
+                            router.push('/customer-list/deleted/')
+                            this.getCustomers()
                         }
                     }).catch(error => {
                         if (error.response.status === 401) {
@@ -226,7 +212,7 @@
                         }
                     });
                 }
-            }
+            }, 
         }
     };
 </script>
